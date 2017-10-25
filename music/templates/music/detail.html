@@ -2,30 +2,63 @@
 <html>
 <head>
 	<title>Details</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-	<h3>{{album.id}} - {{album.album_title}} - {{album.genre}} </h3>
-	<img src="{{album.album_logo}}" width="150px">
-	<h4>- {{album.artist}}</h4>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h3>{{album.id}} - {{album.album_title}} - {{album.genre}} </h3>
+						<img src="{{album.album_logo}}" width="150px">
+						<h4>- {{album.artist}}</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						All Song Listing
+					</div>
 
-	{% if error_message %}
-		<p style="background: red; color: white; padding: 30px; margin: 30px;"><strong>{{ error_message }}</strong></p>
-	{% endif %}
+					<div class="panel-body">
+						<form action="{% url 'music:favorite' album.id %}" method="post">
+							{% csrf_token %}
+							{% for song in album.song_set.all %}
+								<input type="radio" name="song"  id="song{{ forloop.counter }}" value="{{ song.id }}">
+								<label for ="song{{ forloop.counter }}"> {{song.song_title}}
+								{% if song.is_favorite %}
+									<img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" height="15px">
+								{% endif %}
+								</label>
+								<br>
+							{% endfor %}
+							<input type="submit" name="" value="Favorite" class="btn btn-warning">
+						</form>	
+					</div>
+				</div>
+			</div>	
 
-	<form action="{% url 'music:favorite' album.id %}" method="post">
-		{% csrf_token %}
-		{% for song in album.song_set.all %}
-			<input type="radio" name="song"  id="song{{ forloop.counter }}" value="{{ song.id }}">
-			<label for ="song{{ forloop.counter }}"> {{song.song_title}}
-			{% if song.is_favorite %}
-				<img src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/star-128.png" height="15px">
+			{% if error_message %}
+				<div class="col-md-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							Errors
+						</div>
+
+						<div class="panel-body">
+							<div class="alert alert-danger">
+  								<strong>Error!</strong> You have not selected any song
+							</div>
+						</div>						
+					</div>
+				</div>	
 			{% endif %}
-			</label>
-			<br>
-		{% endfor %}
-
-		<input type="submit" name="" value="Favorite">
-	</form>	
+		</div>
+	</div>
 
 </body>
 </html>
