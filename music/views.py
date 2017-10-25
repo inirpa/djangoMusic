@@ -34,14 +34,16 @@ def favorite(request,album_id):
 
 	try:
 		selected_song = album.song_set.get(pk = request.POST['song'])
-		print(selected_song)
-	except(KeyError,SongDoesNotExists):
+	except(KeyError,NameError):
 		return render(request,'music/detail.html',{
 			'album':album,
 			'error_message' : 'You did not select valid song',
 			})
 	else:
-		selected_song.is_favorite = True
+		if(selected_song.is_favorite):
+			selected_song.is_favorite = False
+		else:	
+			selected_song.is_favorite = True
 		selected_song.save()	
 		return render(request,'music/detail.html',{'album' : album})
 

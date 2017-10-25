@@ -9,7 +9,7 @@
 	<h4>- {{album.artist}}</h4>
 
 	{% if error_message %}
-		<p><strong>{{ error_message }}</strong></p>
+		<p style="background: red; color: white; padding: 30px; margin: 30px;"><strong>{{ error_message }}</strong></p>
 	{% endif %}
 
 	<form action="{% url 'music:favorite' album.id %}" method="post">
