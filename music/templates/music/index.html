@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+{% extends 'music/base.html' %}
+
+{% block body %}	
 	<h3> All albums </h3>
 	{% if all_albums %}
 	<ul>
 		{% for album in all_albums %}
 		<li>
 			<a href="{% url 'music:detail' album.id %}">{{album.album_title}}</a>
+			<form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
+				{% csrf_token %}
+				<input type="hidden" name="album_id" value="{{ album.id }}" />
+				<button type="submit" class="btn btn-default btn-sm">
+					<span class="glphyicon glphyicon-trash"></span>
+				</button>
+			</form>
 		</li>
 		{% endfor %}	
 	</ul>
 	{% else %}
 		<h3> No albums </h3>
-	{% endif %}	
-</body>
-</html>
+	{% endif %}
+{% endblock %}		
