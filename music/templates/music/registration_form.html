@@ -1,12 +1,15 @@
 {% extends 'music/base.html' %}
-{% block title %}Add Album {% endblock %}
-{% block albums_active %}active{% endblock %}
+{% block title %}Register {% endblock %}
+
 
 {% block body %}	
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12 col-md-12">
 			<div class="panel panel-default">
+				<div class="panel-heading">
+					Create New Account
+				</div>	
 				<div class="panel-body">
 					<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
